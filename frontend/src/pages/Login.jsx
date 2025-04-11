@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import LogoComp from '../components1/LogoComp'
 
 
 export default function Login() {
@@ -27,14 +27,11 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-gray-100 space-y-6">
-      <Card className="w-96 shadow-lg">
+    <div className="flex flex-col justify-center items-center h-screen bg-transparent space-y-6 ">
+      <Card className="w-96 shadow-lg border-red-300 border-1 shadow-2xl shadow-red-300">
         <CardHeader>
           <CardTitle className="text-center">
-            <div className="flex items-center justify-center cursor-pointer" onClick={()=>navigate("/")}>
-              <img src={logo} alt="Logo" className="h-8 w-8" />
-              <span className="text-xl text-red-500 font-bold">Amsafr</span>
-            </div>
+            <LogoComp></LogoComp>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -73,9 +70,9 @@ export default function Login() {
               </div>
             </div>
             <div className="text-right">
-              <a href="#" className="text-red-500 underline text-sm">
-                Mot de passe oublié?
-              </a>
+            <Link to="/Forget" className="underline text-red-500 text-sm">
+            Mot de passe oublié?
+              </Link>
             </div>
             <Button
               className="w-full bg-red-500 hover:bg-red-300"

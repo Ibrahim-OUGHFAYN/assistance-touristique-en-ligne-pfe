@@ -1,92 +1,81 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
 
-const Register = () => {
+
+const Reset = () => {
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
     password: "",
     confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Les mots de passe ne correspondent pas !");
+      return;
+    }
+
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/reset-password",
+        {
+          password: formData.password,
+        }
+      );
+
+      setSuccess("Mot de passe réinitialisé avec succès !");
+      setFormData({ password: "", confirmPassword: "" }); // Réinitialiser le formulaire
+    } catch (error) {
+      setError(error.response?.data?.message || "Une erreur est survenue.");
+    }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen  bg-transparent">
+    <div
+      className="flex justify-center items-center min-h-screen bg-transparent"
+    
+    >
       <Card className="w-96 p-6 border-red-300 border-1 shadow-2xl shadow-red-300">
         <CardContent>
           <h2 className="text-2xl font-semibold text-red-500 text-center mb-4">
-            S'inscrire
+            Réinitialiser le mot de passe
           </h2>
-          <form>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label htmlFor="firstname">Prénom</Label>
-                <Input
-                  className="hover:border-red-500"
-                  placeholder="Prenom"
-                  id="firstname"
-                  type="text"
-                  value={formData.firstname}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="lastname">nom</Label>
-                <Input
-                  id="lastname"
-                  type="text"
-                  value={formData.lastname}
-                  onChange={handleChange}
-                  required
-                  placeholder="nom"
-                  className="hover:border-red-500"
-                />
-              </div>
-            </div>
-            <div className="mt-3">
-              <Label htmlFor="email">E-mail</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="E-mail"
-                className="hover:border-red-500"
-                required
-              />
-            </div>
-            <div className="mt-3">
-              <Label htmlFor="email">le rôle</Label>
-                <select
-                  id="role"
-                  className="w-full mt-1 p-2 shadow-xs  rounded-md border hover:border-red-500"
-                >
-                  <option value="voyageur">Voyageur</option>
-                  <option value="guide">Guide</option>
-                </select>
-            </div>
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {success && (
+            <p className="text-green-500 text-sm text-center">{success}</p>
+          )}
+          <form onSubmit={handleSubmit}>
             <div className="mt-3 relative">
               <Label htmlFor="password">Mot de passe</Label>
               <div className="relative">
                 <Input
                   id="password"
+                  name="password"
                   type={showPassword ? "text" : "password"}
+                  placeholder="Mot de passe"
+                  required
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="mot de passe"
-                  required
                   className="hover:border-red-500"
                 />
                 <button
@@ -103,12 +92,13 @@ const Register = () => {
               <div className="relative">
                 <Input
                   id="confirmPassword"
+                  name="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirmer le mot de passe"
+                  required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="mot de passe"
                   className="hover:border-red-500"
-                  required
                 />
                 <button
                   type="button"
@@ -124,23 +114,16 @@ const Register = () => {
               </div>
             </div>
             <Button
-              className="w-full mt-4 bg-red-500 hover:bg-red-600"
               type="submit"
+              className="w-full mt-4 bg-red-500 hover:bg-red-300"
             >
-              Submit
+              Envoyer
             </Button>
           </form>
-          <br />
-          <div className="text-center">
-            J'ai déjà un compte?
-            <Link to="/Login" className="underline text-red-500">
-              Se connecter
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default Register;
+export default Reset;
