@@ -5,7 +5,7 @@ import Equipe from "./Equipe";
 const Hero = () => {
   return (
     <>
-      <div className="md:px-36 px-8 md:py-28 py-5">
+      <div className="md:px-36 px-8 md:py-10 py-0">
         <div className="mb-10">
           <h2 className="text-2xl text-center font-bold text-red-900">
             À propos de nous

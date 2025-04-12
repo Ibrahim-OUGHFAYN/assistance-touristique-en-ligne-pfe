@@ -1,5 +1,6 @@
 import React from "react";
 import img from "../assets/HeroImg.png";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -10,7 +11,7 @@ const Hero = () => {
           <div className="flex flex-col gap-5 justify-center p-2 lg:-translate-x-16">
             <h1 className="text-4xl md:text-5xl font-bold">Explorez</h1>
             <h1 className="text-4xl md:text-5xl font-bold">
-            les merveilles du
+              les merveilles du
             </h1>
             <h1 className="text-4xl md:text-6xl font-bold text-red-500">
               Maroc
@@ -21,9 +22,11 @@ const Hero = () => {
               ses villes historiques, et ses coutumes authentiques, pour une
               expérience unique et enrichissante.
             </p>
-            <button className="bg-red-500 text-white w-1/2 py-3  rounded-full hover:bg-red-300 hover:text-red-800 font-bold mt-3 transition duration-200 shadow-2xl shadow-red-300">
-              Explorer
-            </button>
+            <Link to="/Places" className="w-full h-full block">
+              <button className="bg-red-500 text-white w-1/2 py-3 rounded-full hover:bg-red-300 hover:text-red-800 font-bold mt-3 transition duration-200 shadow-2xl shadow-red-300 cursor-pointer">
+                Explorer
+              </button>
+            </Link>
           </div>
           {/*l'image*/}
           <div className="lg:translate-x-16">

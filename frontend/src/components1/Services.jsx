@@ -1,5 +1,6 @@
 import GI from "../assets/guidesimg.jpg";
 import PI from "../assets/placesimg.jpg";
+import {Link} from "react-router-dom"
 
 const cardData = [
   {
@@ -60,8 +61,10 @@ const Card = ({ title, description, imageUrl }) => {
         </p>
       </div>
       <div className="p-6 pt-0">
-        <button className="group relative w-full inline-flex items-center justify-center px-6 py-3 sm:py-3.5 font-bold text-white rounded-lg bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 shadow-lg shadow-red-500/30 hover:shadow-red-500/40 transition-all duration-300 hover:-translate-y-0.5">
-          <span className="flex items-center gap-2">
+      <Link
+  to="/Guides"
+  className="group relative w-full inline-flex items-center justify-center px-6 py-3 sm:py-3.5 font-bold text-white rounded-lg bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 shadow-lg shadow-red-500/30 hover:shadow-red-500/40 transition-all duration-300 hover:-translate-y-0.5"
+>          <span className="flex items-center gap-2">
             aller
             <svg
               viewBox="0 0 24 24"
@@ -77,7 +80,7 @@ const Card = ({ title, description, imageUrl }) => {
               />
             </svg>
           </span>
-        </button>
+          </Link>
       </div>
     </div>
   );
