@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,22 +14,63 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "voyageur",
+    experience: 0,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    const payload = {
+      name: `${formData.firstname} ${formData.lastname}`,
+      email: formData.email,
+      password: formData.password,
+      role: formData.role,
+      experience: formData.experience,
+    };
+
+    console.log("Payload being sent:", payload);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users",
+        payload,
+        {withCredentials: true,} 
+      );
+      console.log("Payload being sent:", payload);
+
+      if (response.status === 201 || response.status === 200) {
+        alert("Inscription réussie !");
+        console.log(response.data);
+      } else {
+        alert("Erreur lors de l'inscription.");
+      }
+    } catch (error) {
+      console.error("Erreur axios :", error);
+      alert(error.response?.data?.message || "Une erreur est survenue.");
+    }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen  bg-transparent">
+    <div className="flex justify-center items-center min-h-screen bg-transparent">
       <Card className="w-96 p-6 border-red-300 border-1 shadow-2xl shadow-red-300">
         <CardContent>
           <h2 className="text-2xl font-semibold text-red-500 text-center mb-4">
             S'inscrire
           </h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="firstname">Prénom</Label>
@@ -43,14 +85,14 @@ const Register = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="lastname">nom</Label>
+                <Label htmlFor="lastname">Nom</Label>
                 <Input
                   id="lastname"
                   type="text"
                   value={formData.lastname}
                   onChange={handleChange}
                   required
-                  placeholder="nom"
+                  placeholder="Nom"
                   className="hover:border-red-500"
                 />
               </div>
@@ -68,14 +110,16 @@ const Register = () => {
               />
             </div>
             <div className="mt-3">
-              <Label htmlFor="email">le rôle</Label>
-                <select
-                  id="role"
-                  className="w-full mt-1 p-2 shadow-xs  rounded-md border hover:border-red-500"
-                >
-                  <option value="voyageur">Voyageur</option>
-                  <option value="guide">Guide</option>
-                </select>
+              <Label htmlFor="role">Le rôle</Label>
+              <select
+                id="role"
+                className="w-full mt-1 p-2 shadow-xs rounded-md border hover:border-red-500"
+                value={formData.role} 
+                onChange={handleChange} 
+              >
+                <option value="voyageur">Voyageur</option>
+                <option value="guide">Guide</option>
+              </select>
             </div>
             <div className="mt-3 relative">
               <Label htmlFor="password">Mot de passe</Label>
@@ -85,7 +129,7 @@ const Register = () => {
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="mot de passe"
+                  placeholder="Mot de passe"
                   required
                   className="hover:border-red-500"
                 />
@@ -106,7 +150,7 @@ const Register = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="mot de passe"
+                  placeholder="Mot de passe"
                   className="hover:border-red-500"
                   required
                 />
@@ -132,8 +176,8 @@ const Register = () => {
           </form>
           <br />
           <div className="text-center">
-            J'ai déjà un compte?
-            <Link to="/Login" className="underline text-red-500">
+            J'ai déjà un compte ?
+            <Link to="/Login" className="underline text-red-500 ml-1">
               Se connecter
             </Link>
           </div>

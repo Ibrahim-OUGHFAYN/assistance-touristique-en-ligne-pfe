@@ -10,6 +10,8 @@ import Reset from "./pages/Reset";
 import Guides from "./pages/Guides";
 import Footer from "./components1/Footer";
 import Admin from "./components1/Admin";
+import Profile from "./pages/ProfileGuide"
+import Places from "./pages/Places" 
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -22,6 +24,8 @@ createRoot(document.getElementById("root")).render(
       <Route path="/Forget/Reset" element={<Reset />} />
       <Route path="/Guides" element={<Guides />} />
       <Route path="/Admin" element={<Admin />} />
+      <Route path="/Guides/Profile" element={<Profile/>}/>
+      <Route path="/Places" element={<Places/>}/>
     </Routes>
     <Footer />
   </BrowserRouter>

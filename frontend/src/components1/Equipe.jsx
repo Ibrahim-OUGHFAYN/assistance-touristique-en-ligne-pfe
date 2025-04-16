@@ -19,7 +19,7 @@ export default function Equipe() {
       {guides.map((guide, index) => (
         <Card
           key={index}
-          className="rounded-2xl shadow-md border border-red-500"
+          className="rounded-2xl shadow-md border border-red-500 hover:border-2 transition duration-1000"
         >
           <CardContent className="flex flex-row items-center p-6">
             <img

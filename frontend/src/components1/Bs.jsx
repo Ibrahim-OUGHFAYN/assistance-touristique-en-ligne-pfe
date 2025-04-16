@@ -48,14 +48,14 @@ export default function Bs({ onNavigate }) {
     return (
       <div className="flex flex-col items-center gap-2">
         <Button
-          onClick={() => handleClick("/login")}
+          onClick={() => handleClick("/Plces")}
           variant="ghost"
           className="transition hover:text-red-500"
         >
           Explorer Maroc
         </Button>
         <Button
-          onClick={() => handleClick("/register")}
+          onClick={() => handleClick("/Guides")}
           variant="ghost"
           className="transition hover:text-red-500"
         >
